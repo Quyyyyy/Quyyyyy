@@ -11,7 +11,7 @@ for dirname, _, filenames in os.walk('/kaggle/input'):
 import warnings
 warnings.filterwarnings('ignore')
 X_train = pd.read_csv('C:/Users/HP/Downloads/winequality-red.csv')
-print(X_train)
+#print(X_train)
 
 from sklearn import set_config
 set_config(print_changed_only=False)
@@ -32,9 +32,54 @@ df.describe().T.style.background_gradient(cmap="magma")
 
 print("Totally there are {} null value in the dataset".format(df.isnull().sum().sum()))
 
-df.rename(culumns={"fixed acidity":"fixed_acidity","volatile acidity":"volatile_acidity",
+df.rename(columns={"fixed acidity":"fixed_acidity","volatile acidity":"volatile_acidity",
                     "citric acid":"citric_acid","residual sugar":"residual_sugar",
                     "chlorides":"chlorides","free sulfur dioxide":"free_sulfur_dioxide",
-                    "total sulfur dioxide":"total_sulfur_dioxide"}, implace=True)
+                    "total sulfur dioxide":"total_sulfur_dioxide"}, inplace=True)
 
-fig, axes = plt.subplots(1, 3, figsize - (40,10))
+fig, axes = plt.subplots(1, 3, figsize = (40,10))
+
+sns.histplot(ax = axes[0],x=df['fixed_acidity'],
+            bins = 10,
+            kde = True,
+            cbar = True,
+            color ="#CA96EC").set(title = "Distribution of 'fixed_acidity");
+
+sns.histplot(ax = axes[1],x=df['volatile_acidity'],
+            bins = 10,
+            kde = True,
+            cbar = True,
+            color ="#A163CF").set(title = "Distribution of 'volatile_acidity");
+
+sns.histplot(ax = axes[2],x=df['citric_acid'],
+            bins = 10,
+            kde = True,
+            cbar = True,
+            color ="#29066B").set(title = "Distribution of 'citric_acid");
+
+fig, axes = plt.subplots(2, 2, figsize = (15,10))
+axes = axes.flatten()
+
+sns.scatterplot(ax = axes[0],
+                x = "residual_sugar",
+                y = "quality", hue = "quality",
+                data = df).set(title = "Relationship between 'residual_sugar' and 'quality'");
+
+sns.scatterplot(ax = axes[1],
+                x = "alcohol",
+                y = "quality", hue = "quality",
+                data = df).set(title = "Relationship between 'alcohol' and 'quality'");
+
+sns.scatterplot(ax = axes[2],
+                x = "pH",
+                y = "quality", hue = "quality",
+                data = df).set(title = "Relationship between 'pH' and 'quality'");
+
+sns.scatterplot(ax = axes[3],
+                x = "density",
+                y = "quality", hue = "quality",
+                data = df).set(title = "Relationship between 'density' and 'quality'");
+
+plt.figure(figsize=[20,10],facecolor='white')
+sns.heatmap(df.corr(), annot = True, linewidths=2,cmap="magma")
+plt.show()

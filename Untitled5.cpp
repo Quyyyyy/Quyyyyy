@@ -60,6 +60,8 @@ int main(){
 			t += i;
 		}
 	}
+	for(int i=0;i<L;i++) cout<<i<<" "<<e[i]<<endl;
+
 	
 	cout<<z<<" "<<t/d<<endl;
 }
